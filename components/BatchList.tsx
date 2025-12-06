@@ -33,10 +33,10 @@ const BatchList: React.FC<BatchListProps> = ({ onSelectBatch }) => {
   const loadBatches = async () => {
     try {
       setLoading(true);
-      const data = await api.getBatches(1, 20); // Fetch first 20 for list
+      const data = await api.getBatches(1, 20);
       setBatches(data.batches);
     } catch (err) {
-      setError('Failed to load recent batches.');
+      setError('Falha ao carregar lotes recentes.');
     } finally {
       setLoading(false);
     }
@@ -53,7 +53,6 @@ const BatchList: React.FC<BatchListProps> = ({ onSelectBatch }) => {
     if (rawValue) {
       console.log(rawValue)
       setShowScanner(false);
-      // Clean up ID if it's a URL or contains extra data, otherwise assume it's just the ID
       const id = rawValue.trim();
       navigate(`/manage/${id}`);
     }
@@ -64,7 +63,7 @@ const BatchList: React.FC<BatchListProps> = ({ onSelectBatch }) => {
     if (!file) return;
 
     if (!('BarcodeDetector' in window)) {
-      alert("Your browser does not support native image scanning. Please use the camera or Chrome/Edge.");
+      alert("Seu navegador não suporta leitura de QR nativa. Tente usar a câmera ou Chrome/Edge.");
       return;
     }
 
@@ -77,11 +76,11 @@ const BatchList: React.FC<BatchListProps> = ({ onSelectBatch }) => {
         console.log(matches)
         handleScanSuccess(matches[0].rawValue);
       } else {
-        alert("No QR code found in the image.");
+        alert("Nenhum QR Code encontrado na imagem.");
       }
     } catch (err) {
       console.error(err);
-      alert("Error scanning image file.");
+      alert("Erro ao analisar a imagem.");
     }
   };
 
@@ -98,14 +97,14 @@ const BatchList: React.FC<BatchListProps> = ({ onSelectBatch }) => {
           className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow transition-colors flex items-center gap-2"
         >
           <QrCode size={18} />
-          Admin Access
+          Acesso Admin
         </button>
       </div>
 
-      {/* Header & Search */}
+      {/* Cabeçalho e Busca */}
       <div className="text-center mb-10">
         <p className="text-slate-500 mb-8 text-lg">
-          Transparent supply chain tracking for premium Açaí
+          Rastreamento transparente da cadeia produtiva do Açaí Premium
         </p>
 
         <form onSubmit={handleSearch} className="relative max-w-lg mx-auto">
@@ -116,7 +115,7 @@ const BatchList: React.FC<BatchListProps> = ({ onSelectBatch }) => {
             />
             <input
               type="text"
-              placeholder="Enter Batch ID (e.g. B176...)"
+              placeholder="Digite o ID do Lote (ex: B176...)"
               className="w-full pl-12 pr-4 py-4 rounded-full border border-slate-200 shadow-sm focus:ring-4 focus:ring-purple-100 focus:border-purple-500 outline-none transition-all text-lg"
               value={searchId}
               onChange={(e) => setSearchId(e.target.value)}
@@ -124,27 +123,28 @@ const BatchList: React.FC<BatchListProps> = ({ onSelectBatch }) => {
           </div>
 
           <p className="text-xs text-slate-400 mt-2">
-            Tip: Press <span className="font-bold">Enter</span> to track a batch.
+            Dica: Pressione <span className="font-bold">Enter</span> para rastrear um lote.
           </p>
         </form>
       </div>
 
-      {/* SCANNER MODAL */}
+      {/* MODAL DO SCANNER */}
       {showScanner && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/90 backdrop-blur-sm p-4">
           <div className="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl relative animate-in fade-in zoom-in duration-200">
+
             {/* Header */}
             <div className="p-4 bg-slate-900 text-white flex justify-between items-center">
               <div className="flex items-center gap-2 font-bold">
                 <QrCode size={18} className="text-emerald-400" />
-                <span>Scan Batch Tag</span>
+                <span>Escanear Tag do Lote</span>
               </div>
               <button onClick={() => setShowScanner(false)} className="text-slate-400 hover:text-white transition-colors">
                 <X size={20} />
               </button>
             </div>
 
-            {/* Camera Viewport */}
+            {/* Scanner */}
             <div className="relative aspect-square bg-black overflow-hidden group">
               <Scanner
                 onScan={(detectedCodes) => {
@@ -166,13 +166,13 @@ const BatchList: React.FC<BatchListProps> = ({ onSelectBatch }) => {
                 }}
               />
               <div className="absolute inset-0 pointer-events-none border-[40px] border-slate-900/60 z-10 flex items-center justify-center">
-                <div className="text-white/50 text-xs font-mono mt-32">Point camera at QR Code</div>
+                <div className="text-white/50 text-xs font-mono mt-32">Aponte a câmera para o QR Code</div>
               </div>
             </div>
 
-            {/* Footer / Manual Upload */}
+            {/* Upload Manual */}
             <div className="p-6 bg-slate-50 text-center">
-              <p className="text-slate-500 text-sm mb-4">Or upload an image containing a QR code</p>
+              <p className="text-slate-500 text-sm mb-4">Ou envie uma imagem contendo um QR Code</p>
 
               <input
                 type="file"
@@ -187,27 +187,27 @@ const BatchList: React.FC<BatchListProps> = ({ onSelectBatch }) => {
                 className="w-full py-3 bg-white border border-slate-200 hover:border-purple-300 hover:text-purple-600 text-slate-700 font-semibold rounded-xl transition-all shadow-sm hover:shadow flex items-center justify-center gap-2"
               >
                 <Upload size={18} />
-                Upload Image
+                Enviar Imagem
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Recent Batches List */}
+      {/* Lista de Lotes Recentes */}
       <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
         <div className="px-6 py-5 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
           <h2 className="font-semibold text-slate-700 flex items-center gap-2">
             <Package className="text-emerald-600" size={18} />
-            Recent Batches
+            Lotes Recentes
           </h2>
-          <span className="text-xs font-medium px-2 py-1 bg-slate-200 text-slate-600 rounded-md">Live Data</span>
+          <span className="text-xs font-medium px-2 py-1 bg-slate-200 text-slate-600 rounded-md">Dados em Tempo Real</span>
         </div>
 
         {loading ? (
           <div className="p-12 text-center text-slate-400">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-4"></div>
-            Loading supply chain data...
+            Carregando dados da cadeia produtiva...
           </div>
         ) : error ? (
           <div className="p-8 text-center text-red-500">{error}</div>
@@ -225,11 +225,14 @@ const BatchList: React.FC<BatchListProps> = ({ onSelectBatch }) => {
                       {batch.batchId}
                     </span>
                     {batch.certificate && batch.certificate !== 'None' && (
-                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full border ${batch.certificate === 'Gold' ? 'bg-yellow-100 text-yellow-700 border-yellow-200' :
-                        batch.certificate === 'Silver' ? 'bg-slate-100 text-slate-700 border-slate-200' :
-                          'bg-orange-100 text-orange-800 border-orange-200'
+                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full border ${
+                        batch.certificate === 'Gold'
+                          ? 'bg-yellow-100 text-yellow-700 border-yellow-200'
+                          : batch.certificate === 'Silver'
+                          ? 'bg-slate-100 text-slate-700 border-slate-200'
+                          : 'bg-orange-100 text-orange-800 border-orange-200'
                         }`}>
-                        {batch.certificate} Certified
+                        Certificação {batch.certificate}
                       </span>
                     )}
                   </div>
@@ -243,13 +246,13 @@ const BatchList: React.FC<BatchListProps> = ({ onSelectBatch }) => {
                       GI Score: <span className="font-semibold text-slate-700">{batch.gi}</span>
                     </div>
                     <div className="text-slate-400">
-                      {batch.eventCount} events logged
+                      {batch.eventCount} eventos registados
                     </div>
                   </div>
                 </div>
 
                 <div className="flex items-center text-purple-600 font-medium text-sm group-hover:translate-x-1 transition-transform">
-                  View Details
+                  Ver Detalhes
                   <ChevronRight size={16} className="ml-1" />
                 </div>
               </div>
@@ -257,7 +260,7 @@ const BatchList: React.FC<BatchListProps> = ({ onSelectBatch }) => {
 
             {batches.length === 0 && (
               <div className="p-8 text-center text-slate-500">
-                No batches found.
+                Nenhum lote encontrado.
               </div>
             )}
           </div>

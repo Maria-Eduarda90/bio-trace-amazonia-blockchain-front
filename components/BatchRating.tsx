@@ -20,7 +20,7 @@ const BatchRating: React.FC<BatchRatingProps> = ({ batchId, onBack }) => {
         console.log(ip)
 
         if (rating < 1 || rating > 10) {
-            alert("Rating must be between 1 and 10.");
+            alert("A nota deve ser entre 1 e 10.");
             return;
         }
 
@@ -36,7 +36,7 @@ const BatchRating: React.FC<BatchRatingProps> = ({ batchId, onBack }) => {
             setLoading(false);
         } catch (err) {
             console.error(err);
-            alert("Failed to submit rating.");
+            alert("Falha ao enviar a avaliação.");
         }
     };
 
@@ -45,13 +45,13 @@ const BatchRating: React.FC<BatchRatingProps> = ({ batchId, onBack }) => {
             <div className="min-h-screen flex items-center justify-center bg-slate-50 px-6">
                 <div className="bg-white p-8 rounded-2xl shadow-xl text-center max-w-sm w-full">
                     <Star size={48} className="text-yellow-400 mx-auto mb-4" />
-                    <h2 className="text-xl font-bold text-slate-800 mb-2">Thank you!</h2>
-                    <p className="text-slate-500 mb-6">Your evaluation was recorded successfully.</p>
+                    <h2 className="text-xl font-bold text-slate-800 mb-2">Obrigado!</h2>
+                    <p className="text-slate-500 mb-6">Sua avaliação foi registrada com sucesso.</p>
                     <button
                         onClick={onBack}
                         className="w-full bg-emerald-600 text-white py-3 rounded-xl hover:bg-emerald-700"
                     >
-                        Back
+                        Voltar
                     </button>
                 </div>
             </div>
@@ -67,21 +67,21 @@ const BatchRating: React.FC<BatchRatingProps> = ({ batchId, onBack }) => {
                     onClick={onBack}
                     className="flex items-center text-slate-600 hover:text-slate-900 mb-4"
                 >
-                    <ArrowLeft size={20} className="mr-2" /> Back
+                    <ArrowLeft size={20} className="mr-2" /> Voltar
                 </button>
 
                 {/* Title */}
                 <h2 className="text-2xl font-bold text-slate-900 mb-2 text-center">
-                    Evaluate Batch
+                    Avaliar Lote
                 </h2>
 
                 <p className="text-center text-slate-500 mb-6">
-                    Batch ID: <span className="font-mono font-bold">{batchId}</span>
+                    ID do Lote: <span className="font-mono font-bold">{batchId}</span>
                 </p>
 
                 {/* Rating Slider */}
                 <div className="mb-6">
-                    <span className="text-sm font-medium text-slate-700">Rating (1–10)</span>
+                    <span className="text-sm font-medium text-slate-700">Nota (1–10)</span>
 
                     {/* Valor exibido */}
                     <div className="text-center mt-2 mb-3">
@@ -96,9 +96,9 @@ const BatchRating: React.FC<BatchRatingProps> = ({ batchId, onBack }) => {
                         value={rating}
                         onChange={(e) => setRating(Number(e.target.value))}
                         className="
-            w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer
-            accent-emerald-600
-        "
+                            w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer
+                            accent-emerald-600
+                        "
                     />
 
                     {/* Números abaixo */}
@@ -109,16 +109,15 @@ const BatchRating: React.FC<BatchRatingProps> = ({ batchId, onBack }) => {
                     </div>
                 </div>
 
-
                 {/* Notes Input */}
                 <label className="block mb-4">
-                    <span className="text-sm font-medium text-slate-700">Notes (optional)</span>
+                    <span className="text-sm font-medium text-slate-700">Observações (opcional)</span>
                     <div className="flex items-start gap-2 border rounded-xl p-3 border-slate-200 bg-slate-50">
                         <FileText size={18} className="mt-1 text-slate-400" />
                         <textarea
                             rows={3}
                             className="w-full bg-transparent outline-none"
-                            placeholder="Write your feedback..."
+                            placeholder="Escreva seu feedback..."
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
                         />
@@ -131,7 +130,7 @@ const BatchRating: React.FC<BatchRatingProps> = ({ batchId, onBack }) => {
                     onClick={submitRating}
                     className="w-full bg-emerald-600 text-white py-3 rounded-xl hover:bg-emerald-700 transition disabled:opacity-50"
                 >
-                    {loading ? "Submitting..." : "Submit Rating"}
+                    {loading ? "Enviando..." : "Enviar Avaliação"}
                 </button>
             </div>
         </div>

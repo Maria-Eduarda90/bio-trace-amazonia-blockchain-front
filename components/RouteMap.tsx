@@ -71,7 +71,7 @@ const RouteMap: React.FC<RouteMapProps> = ({ mData, loading }) => {
         scrollWheelZoom={true}
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          attribution='&copy; Contribuidores do OpenStreetMap'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
