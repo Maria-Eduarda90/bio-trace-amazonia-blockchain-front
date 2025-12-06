@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from "react";
-import 'leaflet/dist/leaflet.css';
+import React, { useEffect } from "react";
+import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Polyline, Marker, useMap } from "react-leaflet";
 import L from "leaflet";
 import { MapCoordinate, MapResponse } from "../types";
@@ -9,7 +9,18 @@ interface RouteMapProps {
   loading: boolean;
 }
 
-// Componente helper para ajustar o bounds
+const ResizeHandler: React.FC = () => {
+  const map = useMap();
+
+  useEffect(() => {
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 0);
+  }, [map]);
+
+  return null;
+};
+
 const FitBounds: React.FC<{ coordinates: MapCoordinate[] }> = ({ coordinates }) => {
   const map = useMap();
 
@@ -64,6 +75,7 @@ const RouteMap: React.FC<RouteMapProps> = ({ mData, loading }) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
+        <ResizeHandler />
         <FitBounds coordinates={mData.coordinates} />
 
         <Polyline
