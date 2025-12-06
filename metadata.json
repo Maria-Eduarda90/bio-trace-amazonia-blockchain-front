@@ -1,0 +1,7 @@
+{
+  "name": "Bio Trace Amazônia",
+  "description": "A blockchain-based traceability dashboard for Amazonian Açaí batches, tracking the journey from harvest to consumer with IoT and certification data.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
