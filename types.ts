@@ -22,10 +22,25 @@ export interface HistoryEventData {
   lng?: number;
   location?: string;
   rating?: number;
+  // New Fields
+  notes?: string;
+  dispatchedBy?: string;
+  receivedBy?: string;
+  finalizedBy?: string;
+  inspector?: string;
 }
 
+export type EventType = 
+  | 'BATCH_CREATED' 
+  | 'IOT_UPDATE' 
+  | 'DISPATCHED' 
+  | 'RECEIVED' 
+  | 'RATING' 
+  | 'INSPECTION' 
+  | 'FINALIZED';
+
 export interface HistoryEvent {
-  eventType: 'BATCH_CREATED' | 'IOT_UPDATE' | 'DISPATCHED' | 'RECEIVED' | 'RATING';
+  eventType: EventType;
   eventData: HistoryEventData;
   timestamp: string;
 }
@@ -35,7 +50,7 @@ export interface CertificateResponse {
   batchId: string;
   gi: number;
   certificate: string;
-  events?: HistoryEvent[]; // Optional based on example provided in prompt
+  events?: HistoryEvent[];
 }
 
 // Map Types
@@ -53,23 +68,40 @@ export interface MapResponse {
 }
 
 // Action Payloads
+
 export interface DispatchPayload {
   batchId: string;
+  dispatchedBy: string;
   location: string;
+  notes: string;
   lat: number;
   lng: number;
 }
 
 export interface ReceivePayload {
   batchId: string;
+  receivedBy: string;
   location: string;
+  notes: string;
   lat: number;
   lng: number;
 }
 
-export interface RatingPayload {
+export interface FinalizePayload {
+  batchId: string;
+  finalizedBy: string;
+  location: string;
+  notes: string;
+  lat: number;
+  lng: number;
+}
+
+export interface InspectionPayload {
   batchId: string;
   rating: number;
+  inspector: string;
+  notes: string;
+  location: string;
   lat: number;
   lng: number;
 }

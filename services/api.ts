@@ -5,7 +5,8 @@ import {
   MapResponse,
   DispatchPayload,
   ReceivePayload,
-  RatingPayload
+  InspectionPayload,
+  FinalizePayload
 } from '../types';
 
 const BASE_URL = 'https://bio-trace-amazonia-blockchain.onrender.com';
@@ -63,9 +64,19 @@ export const api = {
     return handleResponse<void>(res);
   },
 
-  // 7. Rating Event
-  postRating: async (payload: RatingPayload): Promise<void> => {
-    const res = await fetch(`${BASE_URL}/events/rating`, {
+  // 7. Quality Inspection Event (Replaces Rating)
+  postInspection: async (payload: InspectionPayload): Promise<void> => {
+    const res = await fetch(`${BASE_URL}/events/inspection`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    return handleResponse<void>(res);
+  },
+
+  // 8. Finalize Event
+  postFinalized: async (payload: FinalizePayload): Promise<void> => {
+    const res = await fetch(`${BASE_URL}/events/finalized`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
