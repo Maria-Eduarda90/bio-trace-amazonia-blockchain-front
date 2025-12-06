@@ -5,7 +5,8 @@ import RouteMap from './RouteMap';
 import {
     ArrowLeft, Truck, CheckCircle2, Star,
     MapPin, Thermometer, Droplets, Clock, Award,
-    ClipboardCheck, Flag, User, FileText
+    ClipboardCheck, Flag, User, FileText,
+    QrCode
 } from 'lucide-react';
 
 interface BatchDashboardProps {
@@ -18,6 +19,7 @@ const BatchDashboard: React.FC<BatchDashboardProps> = ({ batchId, onBack }) => {
     const [cert, setCert] = useState<CertificateResponse | null>(null);
     const [mapData, setMapData] = useState<MapResponse | null>(null);
     const [loading, setLoading] = useState(true);
+    const [showBatchIdModal, setShowBatchIdModal] = useState(false)
 
     const fetchData = useCallback(async () => {
         try {
@@ -78,8 +80,18 @@ const BatchDashboard: React.FC<BatchDashboardProps> = ({ batchId, onBack }) => {
                     <button onClick={onBack} className="flex items-center text-slate-600 hover:text-slate-900 font-medium transition-colors">
                         <ArrowLeft size={20} className="mr-2" /> Back
                     </button>
-                    <div className="font-mono text-sm bg-slate-100 px-3 py-1 rounded text-slate-700">
-                        {batchId}
+                    <div class="flex gap-6">
+                        <div className="font-mono text-sm bg-slate-100 px-3 py-1 rounded text-slate-700">
+                            {batchId}
+                        </div>
+                        <button
+                            type="button"
+                            onClick={() => { setShowBatchIdModal(true) }}
+                            className="text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-full transition-colors"
+                            title="Admin/Scan Mode"
+                        >
+                            <QrCode size={24} />
+                        </button>
                     </div>
                 </div>
             </div>
@@ -103,8 +115,8 @@ const BatchDashboard: React.FC<BatchDashboardProps> = ({ batchId, onBack }) => {
 
                         <div className="mt-8 flex items-center gap-4">
                             <div className={`w-16 h-16 rounded-full flex items-center justify-center border-4 shadow-inner ${cert?.certificate === 'Gold' ? 'bg-yellow-400 border-yellow-200 text-yellow-900' :
-                                    cert?.certificate === 'Silver' ? 'bg-slate-300 border-slate-200 text-slate-800' :
-                                        'bg-orange-400 border-orange-200 text-orange-900'
+                                cert?.certificate === 'Silver' ? 'bg-slate-300 border-slate-200 text-slate-800' :
+                                    'bg-orange-400 border-orange-200 text-orange-900'
                                 }`}>
                                 <Award size={32} />
                             </div>
@@ -131,7 +143,7 @@ const BatchDashboard: React.FC<BatchDashboardProps> = ({ batchId, onBack }) => {
                         {history.map((event, idx) => (
                             <div key={idx} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                                 {/* Icon */}
-                                <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-slate-50 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                                <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-slate-50 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
                                     {getEventIcon(event.eventType)}
                                 </div>
 
@@ -186,6 +198,53 @@ const BatchDashboard: React.FC<BatchDashboardProps> = ({ batchId, onBack }) => {
                     </div>
                 </div>
             </main>
+            {/* Modal QR Code */}
+            {showBatchIdModal && (
+                <div
+                    className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-9999 p-4"
+                    onClick={() => setShowBatchIdModal(false)}
+                >
+                    <div
+                        className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl relative"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Close Button */}
+                        <button
+                            onClick={() => setShowBatchIdModal(false)}
+                            className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+                        >
+                            ✕
+                        </button>
+
+                        {/* Title */}
+                        <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">
+                            Batch QR Code
+                        </h2>
+
+                        {/* QR Code */}
+                        <div className="flex justify-center">
+                            <img
+                                src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${batchId}`}
+                                alt="QR Code"
+                                className="w-64 h-64 sm:w-72 sm:h-72 object-contain"
+                            />
+                        </div>
+
+                        {/* Batch ID displayed below */}
+                        <p className="text-center text-gray-600 mt-4 break-all">
+                            {batchId}
+                        </p>
+
+                        {/* Close button full width (mobile friendly) */}
+                        <button
+                            onClick={() => setShowBatchIdModal(false)}
+                            className="mt-6 w-full bg-emerald-600 text-white py-2 rounded-xl hover:bg-emerald-700 transition"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

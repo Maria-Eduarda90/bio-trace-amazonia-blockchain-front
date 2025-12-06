@@ -1,3 +1,4 @@
+import './global.css'
 import React, { useState } from 'react';
 import { HashRouter, Routes, Route, useNavigate, useParams } from 'react-router-dom';
 import BatchList from './components/BatchList';
@@ -8,13 +9,13 @@ import BatchManager from './components/BatchManager';
 const DashboardWrapper: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
-    
+
     if (!id) return null;
 
     return (
-        <BatchDashboard 
-            batchId={id} 
-            onBack={() => navigate('/')} 
+        <BatchDashboard
+            batchId={id}
+            onBack={() => navigate('/')}
         />
     );
 };
@@ -27,7 +28,7 @@ const ManagerWrapper: React.FC = () => {
     if (!id) return null;
 
     return (
-        <BatchManager 
+        <BatchManager
             batchId={id}
             onBack={() => navigate('/')}
         />
@@ -43,15 +44,15 @@ const ListWrapper: React.FC = () => {
 }
 
 const App: React.FC = () => {
-  return (
-    <HashRouter>
-        <Routes>
-            <Route path="/" element={<ListWrapper />} />
-            <Route path="/batch/:id" element={<DashboardWrapper />} />
-            <Route path="/manage/:id" element={<ManagerWrapper />} />
-        </Routes>
-    </HashRouter>
-  );
+    return (
+        <HashRouter>
+            <Routes>
+                <Route path="/" element={<ListWrapper />} />
+                <Route path="/batch/:id" element={<DashboardWrapper />} />
+                <Route path="/manage/:id" element={<ManagerWrapper />} />
+            </Routes>
+        </HashRouter>
+    );
 };
 
 export default App;

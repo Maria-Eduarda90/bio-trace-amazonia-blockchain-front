@@ -52,7 +52,7 @@ const RouteMap: React.FC<RouteMapProps> = ({ mData, loading }) => {
   });
 
   return (
-    <div className="h-[300px] w-full rounded-xl overflow-hidden shadow-md">
+    <div className="h-[300px] w-full rounded-xl overflow-hidden shadow-md z-0">
       <MapContainer
         center={[start.lat, start.lng]}
         zoom={13}
