@@ -4,6 +4,7 @@ import { HashRouter, Routes, Route, useNavigate, useParams } from 'react-router-
 import BatchList from './components/BatchList';
 import BatchDashboard from './components/BatchDashboard';
 import BatchManager from './components/BatchManager';
+import BatchRating from './components/BatchRating';
 
 // Wrapper to parse ID from URL params for the Dashboard
 const DashboardWrapper: React.FC = () => {
@@ -43,6 +44,21 @@ const ListWrapper: React.FC = () => {
     );
 }
 
+const RatingWrapper: React.FC = () => {
+    const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate();
+
+    if (!id) return null;
+
+    return (
+        <BatchRating
+            batchId={id}
+            onBack={() => navigate(`/batch/${id}`)}
+        />
+    );
+};
+
+
 const App: React.FC = () => {
     return (
         <HashRouter>
@@ -50,6 +66,7 @@ const App: React.FC = () => {
                 <Route path="/" element={<ListWrapper />} />
                 <Route path="/batch/:id" element={<DashboardWrapper />} />
                 <Route path="/manage/:id" element={<ManagerWrapper />} />
+                <Route path="/rate/:id" element={<RatingWrapper />} />
             </Routes>
         </HashRouter>
     );

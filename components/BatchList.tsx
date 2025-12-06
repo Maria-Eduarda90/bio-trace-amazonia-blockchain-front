@@ -87,36 +87,44 @@ const BatchList: React.FC<BatchListProps> = ({ onSelectBatch }) => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      {/* Header & Search */}
-      <div className="text-center mb-10">
-        <h1 className="text-4xl font-bold text-slate-900 mb-2 tracking-tight">
+      {/* NAVBAR FIXA */}
+      <div className="w-full flex justify-between items-center mb-10">
+        <h1 className="text-2xl font-bold text-slate-900">
           Bio Trace <span className="text-purple-700">Amazônia</span>
         </h1>
+
+        <button
+          onClick={() => setShowScanner(true)}
+          className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow transition-colors flex items-center gap-2"
+        >
+          <QrCode size={18} />
+          Admin Access
+        </button>
+      </div>
+
+      {/* Header & Search */}
+      <div className="text-center mb-10">
         <p className="text-slate-500 mb-8 text-lg">
           Transparent supply chain tracking for premium Açaí
         </p>
 
         <form onSubmit={handleSearch} className="relative max-w-lg mx-auto">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+            <Search
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+              size={20}
+            />
             <input
               type="text"
               placeholder="Enter Batch ID (e.g. B176...)"
-              className="w-full pl-12 pr-14 py-4 rounded-full border border-slate-200 shadow-sm focus:ring-4 focus:ring-purple-100 focus:border-purple-500 outline-none transition-all text-lg"
+              className="w-full pl-12 pr-4 py-4 rounded-full border border-slate-200 shadow-sm focus:ring-4 focus:ring-purple-100 focus:border-purple-500 outline-none transition-all text-lg"
               value={searchId}
               onChange={(e) => setSearchId(e.target.value)}
             />
-            <button
-              type="button"
-              onClick={() => setShowScanner(true)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-full transition-colors"
-              title="Admin/Scan Mode"
-            >
-              <QrCode size={24} />
-            </button>
           </div>
+
           <p className="text-xs text-slate-400 mt-2">
-            Tip: Press <span className="font-bold">Enter</span> to track, or click <span className="font-bold"><QrCode size={12} className="inline" /></span> to scan QR for Admin access.
+            Tip: Press <span className="font-bold">Enter</span> to track a batch.
           </p>
         </form>
       </div>

@@ -1,7 +1,7 @@
-import { 
-  BatchesResponse, 
-  HistoryEvent, 
-  CertificateResponse, 
+import {
+  BatchesResponse,
+  HistoryEvent,
+  CertificateResponse,
   MapResponse,
   DispatchPayload,
   ReceivePayload,
@@ -67,6 +67,15 @@ export const api = {
   // 7. Quality Inspection Event (Replaces Rating)
   postInspection: async (payload: InspectionPayload): Promise<void> => {
     const res = await fetch(`${BASE_URL}/events/inspection`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    return handleResponse<void>(res);
+  },
+
+  postRating: async (payload: { batchId: string; rating: number; notes?: string, ip: string }): Promise<void> => {
+    const res = await fetch(`${BASE_URL}/events/rating`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),

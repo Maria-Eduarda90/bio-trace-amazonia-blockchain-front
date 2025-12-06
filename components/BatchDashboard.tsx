@@ -6,8 +6,11 @@ import {
     ArrowLeft, Truck, CheckCircle2, Star,
     MapPin, Thermometer, Droplets, Clock, Award,
     ClipboardCheck, Flag, User, FileText,
-    QrCode
+    QrCode,
+    ShieldOff,
+    StarIcon,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface BatchDashboardProps {
     batchId: string;
@@ -20,6 +23,7 @@ const BatchDashboard: React.FC<BatchDashboardProps> = ({ batchId, onBack }) => {
     const [mapData, setMapData] = useState<MapResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [showBatchIdModal, setShowBatchIdModal] = useState(false)
+    const navigate = useNavigate();
 
     const fetchData = useCallback(async () => {
         try {
@@ -97,7 +101,12 @@ const BatchDashboard: React.FC<BatchDashboardProps> = ({ batchId, onBack }) => {
             </div>
 
             <main className="max-w-5xl mx-auto px-4 py-8 space-y-8">
-
+                <button
+                    onClick={() => navigate(`/rate/${batchId}`)}
+                    className="flex items-center gap-2 mt-4 bg-emerald-900 text-white px-4 py-2 rounded-xl self-end"
+                >
+                    <StarIcon size={32} /> Rate this Batch
+                </button>
                 {/* Top Grid: Certificate & Map */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
@@ -116,9 +125,11 @@ const BatchDashboard: React.FC<BatchDashboardProps> = ({ batchId, onBack }) => {
                         <div className="mt-8 flex items-center gap-4">
                             <div className={`w-16 h-16 rounded-full flex items-center justify-center border-4 shadow-inner ${cert?.certificate === 'Gold' ? 'bg-yellow-400 border-yellow-200 text-yellow-900' :
                                 cert?.certificate === 'Silver' ? 'bg-slate-300 border-slate-200 text-slate-800' :
-                                    'bg-orange-400 border-orange-200 text-orange-900'
+                                    'bg-red-400 border-red-200 text-red-900'
                                 }`}>
-                                <Award size={32} />
+                                {
+                                    cert?.certificate === 'None' ? <ShieldOff size={32} /> : <Award size={32} />
+                                }
                             </div>
                             <div>
                                 <div className="text-2xl font-bold">{cert?.certificate || 'Standard'}</div>
